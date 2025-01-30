@@ -3,11 +3,10 @@ package io.github.cursodsousa.produtosapi.controller;
 import ch.qos.logback.core.net.SyslogOutputStream;
 import io.github.cursodsousa.produtosapi.entity.Product;
 import io.github.cursodsousa.produtosapi.repository.ProductRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +28,28 @@ public class ProductController {
 
         productRepository.save(product);
         return product;
+    }
+
+    @GetMapping
+    public List<Product> searchAll() {
+        return productRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Product searchForId(@PathVariable String id){
+        return productRepository.findById(id).orElse(null);
+    }
+
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") String id,
+                          @RequestBody Product product){
+        product.setId(id);
+        productRepository.save(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id){
+        productRepository.deleteById(id);
     }
 }
 
