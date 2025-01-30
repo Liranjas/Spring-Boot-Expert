@@ -30,9 +30,14 @@ public class ProductController {
         return product;
     }
 
+//    @GetMapping
+//    public List<Product> searchAll() {
+//        return productRepository.findAll();
+//    }
+
     @GetMapping
-    public List<Product> searchAll() {
-        return productRepository.findAll();
+    public List<Product> paramSearch(@RequestParam String name) {
+        return productRepository.findByName(name);
     }
 
     @GetMapping("/{id}")
